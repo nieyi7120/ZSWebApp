@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>投料扫描</title>
+		<link rel="stylesheet" type="text/css" href="../../css/aui.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/api.css" />
+	    <link rel="stylesheet" type="text/css" href="../../css/main.css"/>
+	</head>
+
+	<body>
+		<div id="vueapp" class="center">
+			<header class="aui-bar aui-bar-nav" id="aui-header">
+				<a class="aui-btn aui-pull-left" v-on:click="closeWin"> <span class="aui-iconfont aui-icon-left"></span> </a>
+				<div class="aui-title">
+					投料扫描
+				</div>
+		
+			</header>
+			<div class="aui-content">
+				<ul class="aui-list aui-form-list" id="group-*" data-group="*">
+					<li class="aui-list-item">
+						<div class="aui-list-item-inner">
+							<div class="aui-list-item-label">
+								拌料机：
+							</div>
+							
+							<a class="aui-pull-right aui-btn aui-btn-outlined" v-on:click="FeedingScaner"> <span class="aui-iconfont aui-icon-camera"></span> </a>
+						</div>
+						<li class="aui-list-item">
+							<div class="aui-list-item-inner ">
+								<div class="aui-list-item-label">
+									物料编码：&nbsp;
+								</div>
+								<div class="aui-list-item-input">
+									<input v-model="LIFNR" placeholder="物料编码" id="supplierCode" />
+								</div>
+							</div>
+									<a class="aui-pull-right aui-btn aui-btn-outlined" v-on:click="SFNScaner"> <span class="aui-iconfont aui-icon-camera"></span> </a>
+						</li>
+                        <li class="aui-list-item">
+							<div class="aui-list-item-inner ">
+								<div class="aui-list-item-label">
+									物料名称：&nbsp;
+								</div>
+								<div class="aui-list-item-input">
+									<input v-model="Material" placeholder="物料名称" id="matrnCode" />
+								</div>
+							</div>
+						</li>  
+                            <li class="aui-list-item">
+							<div class="aui-list-item-inner ">
+								<div class="aui-list-item-label">
+									数量：&nbsp;
+								</div>
+								<div class="aui-list-item-input">
+									<input v-model="TransQty" placeholder="数量" />
+								</div>
+							</div>
+						</li> 
+							<li class="aui-list-item">
+							<div class="aui-list-item-inner">
+								<div class="aui-bar aui-bar-btn" style="width:95%;">
+									<div class="aui-bar-btn-item aui-active"  onclick="Query()">获取</div>
+                                    <div class="aui-bar-btn-item" v-on:click="SumbMit">提交</div>
+								</div>
+								<input  style="color:#F5F5F5;width:3px;" value="ABBBABBBBBB" type='search'> 
+
+							</div>
+						</li>
+						
+				</ul>
+             
+			</div>
+		</div>
+	</body>
+
+</html>
+<script src="../../script/jquery-3.2.1.min.js"></script>
+<script src="../../script/api.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../script/vue.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../networkmanager/httptools.js" type="text/javascript" charset="utf-8"></script>
+<script src="../util/common.js" type="text/javascript"></script>
+<script src="../viewcontrollers/Refundscontroller.js" type="text/javascript" charset="UTF-8"></script>

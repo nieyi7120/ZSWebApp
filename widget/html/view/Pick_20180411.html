@@ -1,0 +1,222 @@
+﻿<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>整箱捡料出库</title>
+		<link rel="stylesheet" type="text/css" href="../../css/aui.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/main.css" />
+		<style type="text/css">
+			.aui-margin-t-15 {
+				margin-bottom: 0px !important;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="center" id="app">
+			<header class="aui-bar aui-bar-nav" id="aui-header">
+				<a class="aui-btn aui-pull-left" v-on:click="closeWin">
+					<span class="aui-iconfont aui-icon-left"></span>
+				</a>
+				<div class="aui-title">整箱捡料出库</div>
+				<a class="aui-pull-right aui-btn aui-btn-outlined" v-on:click="SmallPick">
+					<span class="aui-iconfont aui-icon-menu"></span>
+				</a>
+				<a class="aui-pull-right aui-btn aui-btn-outlined" v-on:click="FNScanner">
+					<span class="aui-iconfont aui-icon-camera"></span>
+				</a>
+			</header>
+			<div class="aui-content aui-margin-b-15" v-show="IsSmallPick">
+				<ul class="aui-list aui-form-list">
+					<li class="aui-list-item">
+						<div class="aui-list-item-inner" style="width: 100%;">
+							<h3 style="color: red;">小件料出库必须输入批次和工作中心</h3>
+						</div>
+					</li>
+					<li class="aui-list-item">
+						<div class="aui-list-item-inner" style="width: 30%;">
+							批次
+						</div>
+						<div class="aui-list-item-inner" style="width: 70%;">
+							<input v-model="ODF" type="search" placeholder="请输入批次号">
+						</div>
+					</li>
+					<li class="aui-list-item">
+						<div class="aui-list-item-inner" style="width: 30%;">
+							工作中心
+						</div>
+						<div class="aui-list-item-inner" style="width: 70%;">
+							<input v-model="WorkCenter" type="search" placeholder="请输入工作中心">
+						</div>
+					</li>
+					<li class="aui-list-item mead_li">
+						<div class="aui-list-item-inner" style="width: 30%;padding: 5px;">
+							<div class="aui-btn aui-btn-info aui-btn-block" v-on:click="SmallPick">确认</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+			<div class="aui-content aui-margin-b-15" v-show="IsShow">
+				<ul class="aui-list aui-form-list">
+					<li class="aui-list-item">
+						<div class="aui-list-item-inner">
+							<div class="aui-list-item-label">
+								物料编号
+							</div>
+							<div class="aui-list-item-input">
+								{{pick.MaterialCode}}
+							</div>
+						</div>
+					</li>
+					<li class="aui-list-item">
+						<div class="aui-list-item-inner">
+							<div class="aui-list-item-label">
+								批次
+							</div>
+							<div class="aui-list-item-input">
+								{{pick.ODF}}
+							</div>
+						</div>
+					</li>
+					<li class="aui-list-item">
+						<div class="aui-list-item-inner">
+							<div class="aui-list-item-label">
+								工作中心
+							</div>
+							<div class="aui-list-item-input">
+								{{pick.WorkCenter}}
+							</div>
+						</div>
+					</li>
+					<li class="aui-list-item">
+						<div class="aui-list-item-inner">
+							<div class="aui-list-item-label">
+								总需求数量
+							</div>
+							<div class="aui-list-item-input">
+								{{pick.KQuantity}}
+							</div>
+						</div>
+					</li>
+					<li class="aui-list-item">
+						<div class="aui-list-item-inner">
+							<div class="aui-list-item-label">
+								待出库数量
+							</div>
+							<div class="aui-list-item-input">
+								{{pick.DemandQuantity}}
+							</div>
+						</div>
+					</li>
+					<li class="aui-list-item" v-show="LackQty>0">
+						<div class="aui-list-item-inner">
+							<div class="aui-list-item-label">
+								缺料数量
+							</div>
+							<div class="aui-list-item-input">
+								{{LackQty}}
+							</div>
+						</div>
+					</li>
+					<li class="aui-list-item">
+						<div class="aui-list-item-inner">
+							<div class="aui-list-item-label">
+								已出库数量
+							</div>
+							<div class="aui-list-item-input">
+								{{pick.KQuantity-pick.DemandQuantity}}
+							</div>
+						</div>
+					</li>
+					<li class="aui-list-item">
+						<div class="aui-list-item-inner">
+							<div class="aui-list-item-label">
+								出库数量
+							</div>
+							<div class="aui-list-item-input">
+								{{pick.ActualQuantity}}
+							</div>
+						</div>
+					</li>
+					<li class="aui-list-item" v-on:click="openOutSupplierWin">
+						<div class="aui-list-item-inner">
+							<div class="aui-list-item-label">
+								外协供应商
+							</div>
+							<div class="aui-list-item-input">
+								{{pick.Acceptor}}
+							</div>
+						</div>
+					</li>
+					<li class="aui-list-item">
+						<div class="aui-list-item-inner">
+							<div class="aui-list-item-label">
+								是否打印
+							</div>
+							<div class="aui-list-item-input">
+								<input type="checkbox" class="aui-switch" v-model="pick.IsPrint">
+							</div>
+						</div>
+					</li>
+					<li class="aui-list-item">
+						<div class="aui-list-item-inner">
+							箱号
+						</div>
+						<div class="aui-list-item-inner" style="width: 25%;">
+							箱数
+						</div>
+						<div class="aui-list-item-inner" style="width: 30%;">
+							出库
+						</div>
+					</li>
+					<li class="aui-list-item" v-for="(box,index) in pick.Boxs">
+						<div class="aui-list-item-inner">
+							<div class="aui-list-item-input">
+								<div class="aui-col-xs-2">
+									<i class="aui-iconfont aui-icon-trash"></i>
+								</div>
+								{{box.BoxCode.substring(4,box.BoxCode.length)}}
+							</div>
+						</div>
+						<div class="aui-list-item-inner" style="width: 25%;">
+							<div class="aui-list-item-input">
+								{{box.Qty}}
+							</div>
+						</div>
+						<div class="aui-list-item-inner" style="width: 30%;">
+							<div class="aui-list-item-input">
+								<input v-on:keyup="update" type="number" v-model="box.ActualQuantity" placeholder="出库数量">
+							</div>
+						</div>
+					</li>
+					<li class="aui-list-item">
+						<div class="aui-list-item-inner aui-list-item-center aui-list-item-btn">
+							<div class="aui-btn aui-btn-info aui-btn-block" v-on:click="save">出库</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+			<br />
+			<br />
+			<br />
+			<footer class="aui-bar aui-bar-tab aui-margin-t-15 aui-margin-b-15">
+				<div class="aui-bar-tab-item aui-padded-l-15 aui-padded-r-15" tapmode style="width: auto;">
+					<input v-model="BoxCode" type="search" placeholder="请输入箱号">
+				</div>
+				<div class="aui-bar-tab-item" tapmode style="width: 2.2rem;" v-on:click="getbox">
+					<i class="aui-iconfont aui-icon-search"></i>
+				</div>
+			</footer>
+		</div>
+	</body>
+
+</html>
+<script src="../../script/jquery-1.10.2.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../script/api.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../script/vue.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../util/common.js" type="text/javascript" charset="utf-8"></script>
+<script src="../networkmanager/httptools.js" type="text/javascript" charset="utf-8"></script>
+<script src="../viewcontrollers/Pick_20180411controller.js" type="text/javascript" charset="utf-8"></script>

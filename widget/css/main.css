@@ -1,0 +1,23 @@
+/*导航栏*/
+.aui-bar {
+	min-height: 3rem;
+	padding-top: 12px !important;
+}
+.aui-bar-nav {
+	line-height: 3rem;
+}
+.aui-bar-nav .aui-title{
+	min-height: 3rem;
+}
+.aui-bar-nav .aui-btn{
+	height: 3rem;
+	line-height: 3rem;
+}
+.aui-bar-nav .aui-btn.aui-btn-outlined{
+	height: 1.5rem;
+	line-height: 1.5rem;
+}
+/*搜索条*/
+.aui-searchbar {
+    height: 3rem;
+}

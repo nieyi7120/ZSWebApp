@@ -1,0 +1,98 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,initial-scale=1.0,width=device-width" />
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>Hello APP</title>
+		<link rel="stylesheet" type="text/css" href="./css/api.css" />
+		<link rel="stylesheet" type="text/css" href="css/aui.css" />
+		<link rel="stylesheet" type="text/css" href="css/main.css" />
+	</head>
+
+	<body>
+		<header class="aui-bar aui-bar-nav" id="aui-header">
+			<div class="aui-title">SMES注塑</div>
+		</header>
+		<section class="aui-grid aui-margin-b-15" id="app">
+			<div class="aui-row">
+				<div class="aui-col-xs-4" v-for="item in menus" v-on:click="openwin(item.Url,item.Title)">
+					<i class="aui-iconfont aui-icon-gear"></i>
+					<div class="aui-grid-label">{{item.Title}}</div>
+				</div>
+				<div class="aui-col-xs-4" v-on:click="openwin('./html/view/member.html','member')">
+					<i class="aui-iconfont aui-icon-my"></i>
+					<div class="aui-grid-label">个人设置</div>
+				</div>
+			</div>
+		</section>
+	</body>
+	<script type="text/javascript" src="./script/api.js"></script>
+	<script src="script/vue.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="html/networkmanager/httptools.js" type="text/javascript" charset="utf-8"></script>
+	<script src="html/util/common.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		var app = new Vue({
+			el: '#app',
+			data: {
+				menus: []
+			},
+			methods: {
+				openwin: function(url, name) {
+					api.openWin({
+						name: name,
+						url: url,
+						pageParam: {
+
+						}
+					});
+				}
+			}
+		})
+		apiready = function() {
+			api.addEventListener({
+				name: 'loading'
+			}, function(ret, err) {
+				loading();
+			});
+			if(!!$api.getStorage("token") == false) {
+				api.openWin({
+					name: 'login',
+					url: './html/view/login.html',
+					pageParam: {
+
+					}
+				});
+				return;
+			} else {
+				$common.IsExistToken($api.getStorage("token"), function(ret) {
+					if(!ret) {
+						  alert(ret);
+						  alert(JSON.stringify($api.getStorage("token"))) ;
+							alert('不存在Token');
+						$api.setStorage("token", "");
+						api.openWin({
+							name: 'login',
+							url: './html/view/login.html',
+							pageParam: {
+
+							}
+						});
+					} else {
+						alert('存在Token');
+						loading();
+					}
+				})
+			}
+		};
+		var loading = function() {
+			$httptools.get("/Menu/GetMenu", function(ret, err) {
+				//alert(JSON.stringify(ret)+"-"+JSON.stringify(err));
+
+				app.menus = ret;
+			})
+		}
+	</script>
+
+</html>

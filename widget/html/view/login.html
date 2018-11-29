@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<link rel="stylesheet" type="text/css" href="../../css/aui.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/main.css" />
+		<title>登录</title>
+	</head>
+
+	<body>
+		<header class="aui-bar aui-bar-nav" id="aui-header">
+			<div class="aui-title">注塑SMES登录</div>
+		</header>
+		<div class="center" id="app">
+			<div class="aui-content aui-margin-b-15">
+				<ul class="aui-list aui-form-list">
+					<li class="aui-list-item">
+						<div class="aui-list-item-inner">
+							<div class="aui-list-item-label">
+								账号
+							</div>
+							<div class="aui-list-item-input">
+								<input type="text" v-model="username" placeholder="账号">
+							</div>
+						</div>
+					</li>
+					<li class="aui-list-item">
+						<div class="aui-list-item-inner">
+							<div class="aui-list-item-label">
+								密码
+							</div>
+							<div class="aui-list-item-input">
+								<input type="password" v-model="password" placeholder="密码" v-show="!passwordshowstate">
+								<input type="text" v-model="password" placeholder="密码" v-show="passwordshowstate">
+							</div>
+							<div class="aui-list-item-label-icon">
+								<i class="aui-iconfont aui-icon-display" v-show="passwordshowstate" v-on:click="passwordshow"></i>
+								<i class="aui-iconfont aui-icon-hide" v-show="!passwordshowstate" v-on:click="passwordshow"></i>
+							</div>
+						</div>
+					</li>
+					<li class="aui-list-item">
+						<div class="aui-list-item-inner aui-list-item-center aui-list-item-btn" v-on:click="login">
+							<div class="aui-btn aui-btn-info aui-btn-block">登录</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</body>
+
+</html>
+<script src="../../script/api.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../script/vue.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../script/jquery-1.10.2.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../networkmanager/httptools.js" type="text/javascript" charset="utf-8"></script>
+<script src="../util/common.js" type="text/javascript" charset="utf-8"></script>
+<script src="../viewcontrollers/logincontroller.js" type="text/javascript" charset="utf-8"></script>
